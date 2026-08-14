@@ -1637,6 +1637,298 @@ function loadCardback() {
 
 
 // ==========================================
+// BACKGROUND MUSIC
+// ==========================================
+
+function changeMusic(state) {
+
+    const validStates = [
+        "off",
+        "on"
+    ];
+
+    if (
+        !validStates.includes(state)
+    ) {
+
+        state = "off";
+    }
+
+    const player =
+        document.getElementById(
+            "bg-music"
+        );
+
+    if (player) {
+
+        if (state === "on") {
+
+            player.volume = 0.35;
+
+            const playPromise =
+                player.play();
+
+            if (playPromise) {
+
+                playPromise.catch(
+                    () => {
+                        // Autoplay blocked until a user
+                        // gesture happens; the Settings
+                        // toggle click itself counts as
+                        // one, so this is just a safety net.
+                    }
+                );
+            }
+
+        } else {
+
+            player.pause();
+        }
+    }
+
+    localStorage.setItem(
+        "horrorSolitaireMusic",
+        state
+    );
+}
+
+
+function loadMusic() {
+
+    const savedState =
+        localStorage.getItem(
+            "horrorSolitaireMusic"
+        );
+
+    const state =
+        savedState || "off";
+
+    const selector =
+        document.getElementById(
+            "music-toggle"
+        );
+
+    if (selector) {
+
+        selector.value = state;
+    }
+
+    // Don't auto-play on load even if previously
+    // "on" — browsers block audio without a fresh
+    // user gesture. Playback resumes as soon as the
+    // player interacts with the page (see
+    // setupEventListeners' first-interaction hook).
+    if (state === "on") {
+
+        const player =
+            document.getElementById(
+                "bg-music"
+            );
+
+        if (player) {
+
+            player.volume = 0.35;
+        }
+    }
+}
+
+
+// ==========================================
+// FOG
+// ==========================================
+// Pure CSS-driven (see .fog-layer in style.css) —
+// nothing to wire up here, it just runs continuously.
+
+
+// ==========================================
+// JUMP SCARES
+// ==========================================
+
+let jumpscareAudioCtx = null;
+let jumpscareTimer = null;
+
+function playJumpscareSting() {
+
+    try {
+
+        jumpscareAudioCtx =
+            jumpscareAudioCtx ||
+            new (window.AudioContext ||
+                window.webkitAudioContext)();
+
+        if (jumpscareAudioCtx.state === "suspended") {
+
+            jumpscareAudioCtx.resume();
+        }
+
+        const now = jumpscareAudioCtx.currentTime;
+
+        // Low rumble
+        const rumble =
+            jumpscareAudioCtx.createOscillator();
+
+        rumble.type = "sawtooth";
+        rumble.frequency.setValueAtTime(70, now);
+        rumble.frequency.exponentialRampToValueAtTime(
+            35, now + 0.4
+        );
+
+        // High shriek
+        const shriek =
+            jumpscareAudioCtx.createOscillator();
+
+        shriek.type = "sawtooth";
+        shriek.frequency.setValueAtTime(1200, now);
+        shriek.frequency.exponentialRampToValueAtTime(
+            2200, now + 0.22
+        );
+        shriek.frequency.exponentialRampToValueAtTime(
+            600, now + 0.4
+        );
+
+        const gain =
+            jumpscareAudioCtx.createGain();
+
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(
+            0.5, now + 0.02
+        );
+        gain.gain.exponentialRampToValueAtTime(
+            0.0001, now + 0.45
+        );
+
+        rumble.connect(gain);
+        shriek.connect(gain);
+        gain.connect(jumpscareAudioCtx.destination);
+
+        rumble.start(now);
+        shriek.start(now);
+        rumble.stop(now + 0.45);
+        shriek.stop(now + 0.45);
+
+    } catch (e) {
+
+        // Web Audio unavailable — jump scare just
+        // shows silently, which is fine.
+    }
+}
+
+function triggerJumpscare() {
+
+    const overlay =
+        document.getElementById(
+            "jumpscare-overlay"
+        );
+
+    if (!overlay) {
+
+        return;
+    }
+
+    overlay.classList.remove("active");
+
+    // Force reflow so the animation restarts
+    // even if triggered back-to-back.
+    void overlay.offsetWidth;
+
+    overlay.classList.add("active");
+
+    playJumpscareSting();
+
+    setTimeout(
+        () => {
+
+            overlay.classList.remove("active");
+        },
+        550
+    );
+}
+
+function scheduleJumpscare() {
+
+    clearTimeout(jumpscareTimer);
+
+    const state =
+        localStorage.getItem(
+            "horrorSolitaireJumpscares"
+        ) || "on";
+
+    if (state !== "on") {
+
+        return;
+    }
+
+    // Random interval, roughly 30-90 seconds apart.
+    const delay =
+        30000 + Math.random() * 60000;
+
+    jumpscareTimer = setTimeout(
+        () => {
+
+            triggerJumpscare();
+            scheduleJumpscare();
+        },
+        delay
+    );
+}
+
+function changeJumpscares(state) {
+
+    const validStates = [
+        "off",
+        "on"
+    ];
+
+    if (
+        !validStates.includes(state)
+    ) {
+
+        state = "on";
+    }
+
+    localStorage.setItem(
+        "horrorSolitaireJumpscares",
+        state
+    );
+
+    if (state === "on") {
+
+        scheduleJumpscare();
+
+    } else {
+
+        clearTimeout(jumpscareTimer);
+    }
+}
+
+function loadJumpscares() {
+
+    const savedState =
+        localStorage.getItem(
+            "horrorSolitaireJumpscares"
+        );
+
+    const state =
+        savedState || "on";
+
+    const selector =
+        document.getElementById(
+            "jumpscare-toggle"
+        );
+
+    if (selector) {
+
+        selector.value = state;
+    }
+
+    if (state === "on") {
+
+        scheduleJumpscare();
+    }
+}
+
+
+// ==========================================
 // EVENT LISTENERS
 // ==========================================
 
@@ -1803,6 +2095,98 @@ function setupEventListeners() {
             }
         );
     }
+
+
+    // Background music toggle
+
+    const musicSelector =
+        document.getElementById(
+            "music-toggle"
+        );
+
+    if (musicSelector) {
+
+        musicSelector.addEventListener(
+            "change",
+            event => {
+
+                changeMusic(
+                    event.target.value
+                );
+
+            }
+        );
+    }
+
+
+    // Jump scares toggle
+
+    const jumpscareSelector =
+        document.getElementById(
+            "jumpscare-toggle"
+        );
+
+    if (jumpscareSelector) {
+
+        jumpscareSelector.addEventListener(
+            "change",
+            event => {
+
+                changeJumpscares(
+                    event.target.value
+                );
+
+            }
+        );
+    }
+
+
+    // Resume music on the first tap/click anywhere,
+    // in case it was left "on" from a previous visit
+    // (browsers require a fresh gesture to allow audio).
+    // Also unlocks the Web Audio context used for the
+    // jump-scare sting sound.
+
+    const resumeMusicOnce = () => {
+
+        const savedState =
+            localStorage.getItem(
+                "horrorSolitaireMusic"
+            );
+
+        if (savedState === "on") {
+
+            const player =
+                document.getElementById(
+                    "bg-music"
+                );
+
+            if (player && player.paused) {
+
+                player.play().catch(
+                    () => {}
+                );
+            }
+        }
+
+        if (
+            jumpscareAudioCtx &&
+            jumpscareAudioCtx.state === "suspended"
+        ) {
+
+            jumpscareAudioCtx.resume();
+        }
+
+        document.removeEventListener(
+            "pointerdown",
+            resumeMusicOnce
+        );
+    };
+
+    document.addEventListener(
+        "pointerdown",
+        resumeMusicOnce
+    );
 }
 
 
@@ -1816,6 +2200,8 @@ document.addEventListener(
 
         loadTheme();
         loadCardback();
+        loadMusic();
+        loadJumpscares();
 
         setupEventListeners();
 

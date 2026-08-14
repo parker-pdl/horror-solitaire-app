@@ -192,6 +192,31 @@
          aria-hidden="true">
 
 
+    <!-- Background ambience (starts off; enabled from Settings) -->
+    <audio id="bg-music"
+           src="assets/audio/ambience.mp3"
+           loop
+           preload="none">
+    </audio>
+
+
+    <!-- ======================================
+         DRIFTING FOG (purely decorative, CSS-driven)
+         ====================================== -->
+
+    <div class="fog-layer" aria-hidden="true"></div>
+    <div class="fog-layer fog-layer-2" aria-hidden="true"></div>
+
+
+    <!-- ======================================
+         JUMP SCARE OVERLAY
+         ====================================== -->
+
+    <div id="jumpscare-overlay" aria-hidden="true">
+        <img src="assets/backgrounds/board-1280.jpg" alt="">
+    </div>
+
+
     <!-- ======================================
          SETTINGS DIALOG
          ====================================== -->
@@ -242,6 +267,44 @@
             <option value="cardback-3"
                     selected>
                 Cosmic Old One
+            </option>
+
+        </select>
+
+
+        <label for="music-toggle">
+            Background Music
+        </label>
+
+
+        <select id="music-toggle">
+
+            <option value="off"
+                    selected>
+                Off
+            </option>
+
+            <option value="on">
+                On
+            </option>
+
+        </select>
+
+
+        <label for="jumpscare-toggle">
+            Jump Scares
+        </label>
+
+
+        <select id="jumpscare-toggle">
+
+            <option value="on"
+                    selected>
+                On
+            </option>
+
+            <option value="off">
+                Off
             </option>
 
         </select>
