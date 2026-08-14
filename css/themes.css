@@ -1,0 +1,153 @@
+/* ==========================================
+   HORROR SOLITAIRE - THEMES
+   ========================================== */
+
+
+/* ==========================================
+   GRAVEYARD
+   ========================================== */
+
+body[data-theme="graveyard"] {
+    --table-color: #0d1510;
+    --accent-color: #536b50;
+
+    background:
+        radial-gradient(
+            circle at 50% 20%,
+            rgba(100, 130, 100, 0.12),
+            transparent 45%
+        ),
+        #0d1510;
+}
+
+
+/* ==========================================
+   HAUNTED MANSION
+   ========================================== */
+
+body[data-theme="haunted"] {
+    --table-color: #171018;
+    --accent-color: #70416e;
+
+    background:
+        radial-gradient(
+            circle at 50% 20%,
+            rgba(120, 70, 130, 0.12),
+            transparent 45%
+        ),
+        #171018;
+}
+
+
+/* ==========================================
+   BLOOD MOON
+   ========================================== */
+
+body[data-theme="bloodmoon"] {
+    --table-color: #190606;
+    --accent-color: #9b111e;
+
+    background:
+        radial-gradient(
+            circle at 70% 10%,
+            rgba(150, 10, 10, 0.25),
+            transparent 35%
+        ),
+        #190606;
+}
+
+
+/* ==========================================
+   GAME BOARD ARTWORK
+   (hooded reaper, with the pentagram/skeleton
+   icon faded into its center)
+   ========================================== */
+
+#game-board {
+    background-image:
+        radial-gradient(
+            circle at center,
+            rgba(0, 0, 0, 0.15),
+            rgba(0, 0, 0, 0.55) 75%
+        ),
+        url("../assets/backgrounds/board-1280.jpg");
+
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+@media (max-width: 700px) {
+    #game-board {
+        background-attachment: scroll;
+    }
+}
+
+
+/* ==========================================
+   GENERAL HORROR EFFECT
+   ========================================== */
+
+body::before {
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    z-index: 5;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 35%,
+            rgba(0, 0, 0, 0.55) 100%
+        );
+}
+
+
+/* Subtle film grain */
+
+body::after {
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    z-index: 6;
+
+    opacity: 0.035;
+
+    background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+}
+
+
+/* Blood Moon accent */
+
+body[data-theme="bloodmoon"] .game-header h1 {
+    color: #d6b27a;
+
+    text-shadow:
+        0 0 10px rgba(150, 0, 0, 0.8);
+}
+
+
+/* Haunted Mansion accent */
+
+body[data-theme="haunted"] .game-header h1 {
+    color: #c6a6c8;
+}
+
+
+/* Graveyard accent */
+
+body[data-theme="graveyard"] .game-header h1 {
+    color: #a9bba5;
+}

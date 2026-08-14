@@ -1,0 +1,86 @@
+/* ==========================================
+   HORROR SOLITAIRE - MENUS
+   ========================================== */
+
+.game-header {
+    position: relative;
+    z-index: 20;
+}
+
+.game-controls button {
+    min-width: 90px;
+}
+
+
+/* Settings window */
+
+dialog {
+    z-index: 100;
+
+    border: 1px solid #5a1818;
+
+    background:
+        linear-gradient(
+            145deg,
+            #191919,
+            #080808
+        );
+
+    color: #eee;
+}
+
+dialog h2 {
+    font-size: 1.5rem;
+
+    letter-spacing: 1px;
+
+    text-shadow:
+        0 2px 5px #000;
+}
+
+
+/* Select menu */
+
+dialog select {
+    appearance: none;
+
+    cursor: pointer;
+
+    background:
+        #111
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23aaa' stroke-width='2'/%3E%3C/svg%3E")
+        no-repeat right 12px center;
+
+    padding-right: 35px;
+}
+
+
+/* Menu buttons */
+
+dialog button {
+    margin-top: 5px;
+}
+
+
+/* Mobile menu */
+
+@media (max-width: 700px) {
+
+    .game-controls {
+        width: 100%;
+
+        justify-content: center;
+    }
+
+    .game-controls button {
+        flex: 1;
+
+        max-width: 150px;
+    }
+
+    dialog {
+        width: calc(100% - 30px);
+
+        min-width: 0;
+    }
+}
