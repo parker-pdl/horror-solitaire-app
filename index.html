@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color"
+          content="#170707">
+
+    <meta name="description"
+          content="A dark and atmospheric horror-themed Solitaire game.">
+
+    <title>Horror Solitaire</title>
+
+
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Additional stylesheets -->
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/cards.css">
+    <link rel="stylesheet" href="css/menus.css">
+    <link rel="stylesheet" href="css/themes.css">
+
+
+    <!-- PWA manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Icons -->
+    <link rel="icon" href="assets/icons/icon-192.png">
+    <link rel="apple-touch-icon" href="assets/icons/icon-512.png">
+
+</head>
+
+
+<body data-theme="bloodmoon" data-cardback="cardback-3">
+
+
+    <!-- ======================================
+         HEADER
+         ====================================== -->
+
+    <header class="game-header">
+
+        <h1>Horror Solitaire</h1>
+
+        <div class="game-controls">
+
+            <button id="new-game">
+                New Game
+            </button>
+
+            <button id="settings">
+                Settings
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- ======================================
+         GAME BOARD
+         ====================================== -->
+
+    <main id="game-board">
+
+
+        <!-- ==================================
+             STOCK / WASTE / FOUNDATIONS
+             ================================== -->
+
+        <section class="top-row">
+
+
+            <!-- Stock -->
+
+            <div id="stock"
+                 class="card-pile"
+                 aria-label="Stock pile">
+            </div>
+
+
+            <!-- Waste -->
+
+            <div id="waste"
+                 class="card-pile"
+                 aria-label="Waste pile">
+            </div>
+
+
+            <!-- Space between waste and foundations -->
+
+            <div class="spacer"></div>
+
+
+            <!-- Foundations -->
+
+            <div id="foundation-1"
+                 class="card-pile"
+                 aria-label="Foundation pile 1">
+            </div>
+
+            <div id="foundation-2"
+                 class="card-pile"
+                 aria-label="Foundation pile 2">
+            </div>
+
+            <div id="foundation-3"
+                 class="card-pile"
+                 aria-label="Foundation pile 3">
+            </div>
+
+            <div id="foundation-4"
+                 class="card-pile"
+                 aria-label="Foundation pile 4">
+            </div>
+
+        </section>
+
+
+        <!-- ==================================
+             TABLEAU
+             ================================== -->
+
+        <section id="tableau"
+                 aria-label="Solitaire tableau">
+
+
+            <div id="tableau-1"
+                 class="tableau-pile">
+            </div>
+
+            <div id="tableau-2"
+                 class="tableau-pile">
+            </div>
+
+            <div id="tableau-3"
+                 class="tableau-pile">
+            </div>
+
+            <div id="tableau-4"
+                 class="tableau-pile">
+            </div>
+
+            <div id="tableau-5"
+                 class="tableau-pile">
+            </div>
+
+            <div id="tableau-6"
+                 class="tableau-pile">
+            </div>
+
+            <div id="tableau-7"
+                 class="tableau-pile">
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ======================================
+         FOOTER / GAME INFORMATION
+         ====================================== -->
+
+    <footer class="game-footer">
+
+        <span>
+            Moves:
+            <strong id="moves">0</strong>
+        </span>
+
+        <span>
+            Time:
+            <strong id="timer">00:00</strong>
+        </span>
+
+    </footer>
+
+
+    <!-- ======================================
+         SETTINGS DIALOG
+         ====================================== -->
+
+    <dialog id="settings-dialog">
+
+        <h2>Game Settings</h2>
+
+
+        <label for="theme">
+            Horror Theme
+        </label>
+
+
+        <select id="theme">
+
+            <option value="graveyard">
+                Graveyard
+            </option>
+
+            <option value="haunted">
+                Haunted Mansion
+            </option>
+
+            <option value="bloodmoon"
+                    selected>
+                Blood Moon
+            </option>
+
+        </select>
+
+
+        <label for="cardback">
+            Card Back Design
+        </label>
+
+
+        <select id="cardback">
+
+            <option value="cardback-1">
+                Alley Wraith
+            </option>
+
+            <option value="cardback-2">
+                Horned Reaper
+            </option>
+
+            <option value="cardback-3"
+                    selected>
+                Cosmic Old One
+            </option>
+
+        </select>
+
+
+        <button id="close-settings">
+            Close
+        </button>
+
+    </dialog>
+
+
+    <!-- ======================================
+         JAVASCRIPT
+         ====================================== -->
+
+    <script src="app.js"></script>
+
+
+</body>
+
+</html>

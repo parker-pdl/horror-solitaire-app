@@ -1,0 +1,573 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --table-color: #151515;
+    --card-color: #f1eadc;
+    --card-shadow: 0 8px 18px rgba(0, 0, 0, 0.6);
+    --accent-color: #8b0000;
+    --text-color: #eee;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    font-family: Georgia, "Times New Roman", serif;
+    background: var(--table-color);
+    color: var(--text-color);
+    overflow-x: hidden;
+    transition:
+        background 0.5s ease,
+        color 0.5s ease;
+}
+
+
+/* ==========================================
+   HORROR THEMES
+   ========================================== */
+
+body[data-theme="graveyard"] {
+    --table-color: #101512;
+    --accent-color: #566b52;
+}
+
+body[data-theme="haunted"] {
+    --table-color: #171218;
+    --accent-color: #6d3b6d;
+}
+
+body[data-theme="bloodmoon"] {
+    --table-color: #170707;
+    --accent-color: #9b111e;
+}
+
+
+/* ==========================================
+   HEADER
+   ========================================== */
+
+.game-header {
+    width: 100%;
+    padding: 15px 25px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: rgba(0, 0, 0, 0.75);
+
+    border-bottom: 1px solid
+        rgba(255, 255, 255, 0.1);
+
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.7);
+}
+
+.game-header h1 {
+    font-size: clamp(1.4rem, 3vw, 2.4rem);
+    letter-spacing: 2px;
+    text-shadow:
+        0 2px 5px #000;
+}
+
+.game-controls {
+    display: flex;
+    gap: 10px;
+}
+
+
+/* ==========================================
+   BUTTONS
+   ========================================== */
+
+button {
+    border: 1px solid
+        rgba(255, 255, 255, 0.15);
+
+    border-radius: 6px;
+
+    padding: 9px 15px;
+
+    background: var(--accent-color);
+
+    color: white;
+
+    font-family: inherit;
+    font-size: 0.95rem;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        filter 0.15s ease;
+}
+
+button:hover {
+    filter: brightness(1.25);
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+
+/* ==========================================
+   GAME BOARD
+   ========================================== */
+
+#game-board {
+    width: 100%;
+    min-height: calc(100vh - 120px);
+
+    padding: 25px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255, 255, 255, 0.025),
+            transparent 60%
+        );
+
+    position: relative;
+}
+
+
+/* ==========================================
+   TOP ROW
+   ========================================== */
+
+.top-row {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(80px, 110px))
+        1fr
+        repeat(4, minmax(80px, 110px));
+
+    gap: 15px;
+
+    align-items: start;
+
+    max-width: 1100px;
+
+    margin: 0 auto 30px;
+}
+
+.spacer {
+    min-width: 20px;
+}
+
+
+/* ==========================================
+   CARD PILES
+   ========================================== */
+
+.card-pile,
+.tableau-pile {
+    position: relative;
+
+    width: 100px;
+    min-height: 140px;
+
+    border-radius: 9px;
+
+    border: 2px dashed
+        rgba(255, 255, 255, 0.12);
+
+    background:
+        rgba(0, 0, 0, 0.12);
+}
+
+.card-pile.empty {
+    opacity: 0.5;
+}
+
+
+/* ==========================================
+   TABLEAU
+   ========================================== */
+
+#tableau {
+    width: 100%;
+
+    max-width: 1100px;
+
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(7, minmax(70px, 100px));
+
+    justify-content: space-between;
+
+    gap: 12px;
+}
+
+.tableau-pile {
+    min-height: 350px;
+}
+
+
+/* ==========================================
+   CARDS
+   ========================================== */
+
+.card {
+    position: relative;
+
+    width: 100px;
+    height: 140px;
+
+    border-radius: 9px;
+
+    background: var(--card-color);
+
+    color: #111;
+
+    border: 1px solid #222;
+
+    box-shadow: var(--card-shadow);
+
+    user-select: none;
+
+    cursor: pointer;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    padding: 8px;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 12px 25px
+        rgba(0, 0, 0, 0.75);
+}
+
+
+/* ==========================================
+   CARD RANK
+   ========================================== */
+
+.card-rank {
+    font-size: 1.25rem;
+
+    font-weight: bold;
+}
+
+.card-suit {
+    font-size: 2rem;
+
+    align-self: center;
+
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+
+/* ==========================================
+   RED SUITS
+   ========================================== */
+
+.card.hearts,
+.card.diamonds {
+    color: #a00000;
+}
+
+
+/* ==========================================
+   FACE-DOWN CARD
+   ========================================== */
+
+.card.face-down {
+    background:
+        repeating-linear-gradient(
+            45deg,
+            #190808,
+            #190808 6px,
+            #3a0d0d 6px,
+            #3a0d0d 12px
+        );
+
+    background-size: cover;
+    background-position: center;
+
+    border: 3px solid #090909;
+
+    box-shadow:
+        inset 0 0 0 2px rgba(255, 255, 255, 0.08),
+        0 5px 12px rgba(0, 0, 0, 0.65);
+
+    color: #c9a86a;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 2.5rem;
+
+    text-shadow:
+        0 2px 5px #000;
+}
+
+
+/* Selectable card-back artwork (Settings → Card Back Design) */
+
+body[data-cardback="cardback-1"] .card.face-down {
+    background-image: url("assets/cards/cardback-1.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+body[data-cardback="cardback-2"] .card.face-down {
+    background-image: url("assets/cards/cardback-2.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+body[data-cardback="cardback-3"] .card.face-down {
+    background-image: url("assets/cards/cardback-3.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Hide the plain skull glyph once real artwork is showing */
+body[data-cardback] .card.face-down::before {
+    display: none;
+}
+
+
+/* ==========================================
+   STACKING CARDS
+   ========================================== */
+
+.tableau-pile .card {
+    margin-bottom: -105px;
+}
+
+.tableau-pile .card:last-child {
+    margin-bottom: 0;
+}
+
+
+/* ==========================================
+   FOOTER
+   ========================================== */
+
+.game-footer {
+    width: 100%;
+
+    padding: 12px 20px;
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 35px;
+
+    background:
+        rgba(0, 0, 0, 0.8);
+
+    border-top:
+        1px solid
+        rgba(255, 255, 255, 0.1);
+
+    font-size: 0.95rem;
+}
+
+
+/* ==========================================
+   SETTINGS
+   ========================================== */
+
+dialog {
+    border: 1px solid
+        rgba(255, 255, 255, 0.15);
+
+    border-radius: 10px;
+
+    padding: 25px;
+
+    background: #151515;
+
+    color: white;
+
+    box-shadow:
+        0 20px 60px
+        rgba(0, 0, 0, 0.9);
+
+    margin: auto;
+
+    min-width: 280px;
+}
+
+dialog::backdrop {
+    background:
+        rgba(0, 0, 0, 0.75);
+}
+
+dialog h2 {
+    margin-bottom: 20px;
+}
+
+dialog label {
+    display: block;
+
+    margin-bottom: 7px;
+}
+
+dialog select {
+    width: 100%;
+
+    padding: 9px;
+
+    margin-bottom: 20px;
+
+    background: #222;
+
+    color: white;
+
+    border: 1px solid #555;
+
+    border-radius: 5px;
+}
+
+
+/* ==========================================
+   MOBILE
+   ========================================== */
+
+@media (max-width: 700px) {
+
+    .game-header {
+        padding: 12px;
+
+        flex-direction: column;
+
+        gap: 10px;
+
+        text-align: center;
+    }
+
+    #game-board {
+        padding: 12px;
+    }
+
+    .top-row {
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 10px;
+
+        margin-bottom: 20px;
+    }
+
+    .spacer {
+        display: none;
+    }
+
+    .card-pile,
+    .tableau-pile {
+        width: 70px;
+        min-height: 98px;
+    }
+
+    .card {
+        width: 70px;
+        height: 98px;
+
+        padding: 5px;
+
+        border-radius: 6px;
+    }
+
+    .card-rank {
+        font-size: 0.9rem;
+    }
+
+    .card-suit {
+        font-size: 1.4rem;
+    }
+
+    .card.face-down {
+        font-size: 1.6rem;
+    }
+
+    #tableau {
+        grid-template-columns:
+            repeat(7, 1fr);
+
+        gap: 4px;
+    }
+
+    .tableau-pile {
+        min-height: 250px;
+    }
+
+    .tableau-pile .card {
+        margin-bottom: -72px;
+    }
+
+    .game-footer {
+        gap: 20px;
+
+        font-size: 0.8rem;
+    }
+}
+
+
+/* ==========================================
+   SMALL PHONES
+   ========================================== */
+
+@media (max-width: 400px) {
+
+    #game-board {
+        padding: 7px;
+    }
+
+    #tableau {
+        gap: 2px;
+    }
+
+    .card-pile,
+    .tableau-pile {
+        width: 62px;
+    }
+
+    .card {
+        width: 62px;
+        height: 88px;
+    }
+
+    .tableau-pile .card {
+        margin-bottom: -64px;
+    }
+
+}
